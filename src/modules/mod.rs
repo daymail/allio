@@ -1,1 +1,1 @@
-pub mod splash;
+pub mod interface;

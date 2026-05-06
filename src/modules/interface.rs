@@ -18,7 +18,7 @@ impl Interface{
 }
 
 impl Component for Interface{
-    fn name(&self)->&str{"Interface"}
+    fn name(&self)->&str{"Interface Screen"}
     fn id(&self)->u16{0}
     fn is_active(&self)->bool{self.active}
     fn set_active(&mut self, active: bool){self.active=active}

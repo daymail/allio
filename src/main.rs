@@ -2,7 +2,7 @@
 mod component;
 mod modules;
 //mod app;
-use modules::splash::Splash;
+use modules::interface::Interface;
 use component::Component;
 use color_eyre::eyre::{Ok, Result};
 use ratatui::{
@@ -19,13 +19,13 @@ fn main() -> Result<()> {
 }
 
 fn run(mut terminal: DefaultTerminal) -> Result<()> {
+    let mut interface_m = Interface::new();
     loop{
-        let mut splash_m = Splash::new();
         terminal.draw(|frame|{
             let screen = frame.area();
-            splash_m.set_active(true);//sets the module to active.
-            if splash_m.is_active(){
-                splash_m.render(frame, screen);
+            interface_m.set_active(true);//sets the module to active.
+            if interface_m.is_active(){
+                interface_m.render(frame, screen);
             }
         })?;
         if let Event::Key(key) = event::read()?{
