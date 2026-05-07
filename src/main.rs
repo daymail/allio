@@ -19,19 +19,26 @@ fn main() -> Result<()> {
 }
 
 fn run(mut terminal: DefaultTerminal) -> Result<()> {
-    let mut interface_m = Interface::new();
+    let mut interface = Interface::new();
     loop{
         terminal.draw(|frame|{
             let screen = frame.area();
-            interface_m.set_active(true);//sets the module to active.
-            if interface_m.is_active(){
-                interface_m.render(frame, screen);
+            interface.set_active(true);//sets the module to active.
+            if interface.is_active(){
+                interface.render(frame, screen);
             }
         })?;
         if let Event::Key(key) = event::read()?{
             if key.kind == KeyEventKind::Press{
-                if key.code == KeyCode::Char('q'){
-                    break;
+                match key.code{
+                    KeyCode::Char('q') => break,
+                    KeyCode::Down | KeyCode::Char('j')=>{
+                        interface.next();
+                    }
+                    KeyCode::Up | KeyCode::Char('k')=>{
+                        interface.prev();
+                    }
+                    _ => {}
                 }
             }
         }
