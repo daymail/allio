@@ -1,4 +1,5 @@
-fn centered_rect(area: Rect, width: u16, height: u16)->Rect{
+// helper functions common in all files
+pub fn centered_rect(area: Rect, width: u16, height: u16)->Rect{
     let vertical = Layout::default()
         .direction(Direction::Vertical)
         .constraints([

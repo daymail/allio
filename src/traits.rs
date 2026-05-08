@@ -2,7 +2,6 @@
 use ratatui::{Frame,widgets::Paragraph,layout::{Rect}};
 use crossterm::event::{KeyCode};
 
-#[warn(dead_code)]
 pub trait Component{
     fn name(&self) -> &str;
     fn id(&self) -> u16;
@@ -25,4 +24,21 @@ pub trait Component{
         let text = Paragraph::new("DEFAULT FRAME");
         frame.render_widget(text, area);
     }
+}
+
+
+//NOTE: module traits
+pub trait BaseModule{
+    fn submodname(&self) -> &str;
+    fn category(&self)-> &str;
+}
+pub trait ProjectModule: BaseModule{
+    fn name(&self)->&str;
+    fn description(&self)->&str;
+    fn git(&self)->String;
+    fn tree(&self)->Vec<String>;
+    fn project_root(&self)->std::path::PathBuf;
+    //optional
+    fn pid(&self)->Option<u32>{None}
+    fn statistics(&self)->Option<(f64, f64)>{None}
 }

@@ -1,9 +1,10 @@
 //NOTE: contains the default window and entry-point and stuff.
-mod component;
+mod theme;
+mod traits;
 mod modules;
 //mod app;
 use modules::interface::Interface;
-use component::Component;
+use traits::Component;
 use color_eyre::eyre::{Ok, Result};
 use ratatui::{
     DefaultTerminal,
