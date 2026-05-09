@@ -1,29 +1,29 @@
 use crate::traits::{ProjectModule, BaseModule};
 
-pub struct Wallwatch{
+pub struct Scoutd{
     name: String,
 }
 
-impl Wallwatch{
+impl Scoutd{
     pub fn new()->Self{
         Self{
-            name: "Wallwatch".to_string()
+            name: "Scoutd".to_string()
         }
     }
 }
 
-impl BaseModule for Wallwatch{
-    fn category(&self) -> crate::modules::ModuleCategory{
+impl BaseModule for Scoutd{
+    fn category(&self)->crate::modules::ModuleCategory {
         crate::modules::ModuleCategory::Projects
     }
     fn submodname(&self)-> &str {
-        "Wallwatch"
+        "Scoutd"
     }
 }
 
-impl ProjectModule for Wallwatch{
-    fn name(&self)->&str {
-        "Wallwatch"
+impl ProjectModule for Scoutd{
+    fn name(&self)->&str{
+        "Scoutd"
     }
     fn description(&self)->&str {
         "atomatic theming tool based on material3 (M3)"
@@ -38,3 +38,4 @@ impl ProjectModule for Wallwatch{
         todo!()
     }
 }
+

@@ -39,6 +39,9 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
                     KeyCode::Up | KeyCode::Char('k')=>{
                         interface.prev();
                     }
+                    KeyCode::Enter => {
+                        interface.handle_enter();
+                    }
                     _ => {}
                 }
             }

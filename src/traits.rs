@@ -1,7 +1,6 @@
 //NOTE: This file js contains the defaults for each attachable module. it's traits!
 use ratatui::{Frame,widgets::Paragraph,layout::{Rect}};
 use crossterm::event::{KeyCode};
-
 pub trait Component{
     fn name(&self) -> &str;
     fn id(&self) -> u16;
@@ -29,8 +28,8 @@ pub trait Component{
 
 //NOTE: module traits
 pub trait BaseModule{
-    fn submodname(&self) -> &str;
-    fn category(&self)-> &str;
+    fn category(&self)->crate::modules::ModuleCategory;
+    fn submodname(&self)-> &str;
 }
 pub trait ProjectModule: BaseModule{
     fn name(&self)->&str;
