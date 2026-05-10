@@ -1,9 +1,11 @@
 //NOTE: contains the default window and entry-point and stuff.
 mod theme;
+mod icons;
 mod traits;
 mod modules;
 //mod app;
 use modules::interface::Interface;
+use std::time::Duration;
 use traits::Component;
 use color_eyre::eyre::{Ok, Result};
 use ratatui::{
@@ -29,20 +31,22 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
                 interface.render(frame, screen);
             }
         })?;
-        if let Event::Key(key) = event::read()?{
-            if key.kind == KeyEventKind::Press{
-                match key.code{
-                    KeyCode::Char('q') => break,
-                    KeyCode::Down | KeyCode::Char('j')=>{
-                        interface.next();
+        if event::poll(Duration::from_millis(250))?{
+            if let Event::Key(key) = event::read()?{
+                if key.kind == KeyEventKind::Press{
+                    match key.code{
+                        KeyCode::Char('q') => break,
+                        KeyCode::Down | KeyCode::Char('j')=>{
+                            interface.next();
+                        }
+                        KeyCode::Up | KeyCode::Char('k')=>{
+                            interface.prev();
+                        }
+                        KeyCode::Enter => {
+                            interface.handle_enter();
+                        }
+                        _ => {}
                     }
-                    KeyCode::Up | KeyCode::Char('k')=>{
-                        interface.prev();
-                    }
-                    KeyCode::Enter => {
-                        interface.handle_enter();
-                    }
-                    _ => {}
                 }
             }
         }

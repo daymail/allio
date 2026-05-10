@@ -1,5 +1,6 @@
 pub mod interface;
 pub mod projects;
+use ratatui::{Frame, layout::Rect};
 use crate::traits::{ProjectModule};
 
 pub enum Module{
@@ -35,6 +36,11 @@ impl Module{
     pub fn submodname(&self)->&str{
         match self{
             Module::Project(p) => p.submodname()
+        }
+    }
+    fn detailing(&mut self, frame: &mut Frame, area: Rect){
+        match self{
+            Module::Project(p) => p.detailing(frame, area),
         }
     }
 }

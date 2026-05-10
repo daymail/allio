@@ -6,7 +6,7 @@ use ratatui::{
     style::{Style, Modifier}
 };
 use crate::{
-    traits::Component,
+    traits::{Component, BaseModule},
     modules::{Module, ModuleCategory},
     theme::PALETTE
 };
@@ -138,25 +138,25 @@ impl Component for Interface{
     fn is_active(&self)->bool{self.active}
     fn set_active(&mut self, active: bool){self.active=active}
     fn render(&mut self, frame: &mut Frame, area: Rect){
-        let [main_area, status_bar] = Layout::default()
-            .direction(Direction::Vertical)
-            .constraints([
-                Constraint::Fill(1),
-                Constraint::Length(1)
-            ]).areas(area);
-        status_bar::render(frame, status_bar, &self.items);
-
+        let workspace = area;
         let [minor, major] = Layout::default()
             .direction(Direction::Horizontal)
             .constraints([
                 Constraint::Percentage(20),
                 Constraint::Fill(1)
-            ]).areas(main_area);
-        minor::render(frame, minor, &mut self.list_state, &self.items, &self.visible_map);
+            ]).areas(workspace);
+
+        let [list_area, sidepanel] = Layout::default()
+            .direction(Direction::Vertical)
+            .constraints([
+                Constraint::Percentage(30),
+                Constraint::Fill(1)
+            ]).areas(minor);
+        minor::render(frame, list_area, &mut self.list_state, &self.items, &self.visible_map);
         if let Some(visual_idx) = self.list_state.selected(){
             if let Some(VisibleItem::Submodule(data_idx)) = self.visible_map.get(visual_idx){
-                if let Some(item) = self.items.get(*data_idx){
-                    major::render(frame, major, &item.data);
+                if let Some(item) = self.items.get_mut(*data_idx){
+                    major::render(frame, major,sidepanel, &mut item.data);
                 }
             }else{
                 frame.render_widget(Block::bordered().title("THIS IS THE DEFAULT MODULE BORDER").title_alignment(Alignment::Center), major);// FIXME: here, render generalized module info, ASCII art and other animations.
@@ -167,22 +167,14 @@ impl Component for Interface{
 
 mod major{
     use super::*;
-    pub fn render(frame: &mut Frame, area: Rect, module: &Module){
-        frame.render_widget(Block::bordered(), area)
+    pub fn render(frame: &mut Frame, main: Rect, side: Rect, module: &mut Module){
+        module.detailing(frame, main);
     }
 }
 
 mod minor{
     use super::*;
     pub fn render(frame: &mut Frame, area: Rect, state: &mut ListState, items: &[ModuleItem], visible_map: &[VisibleItem]){
-        let [module_area, tree] = Layout::default()
-            .direction(Direction::Vertical)
-            .constraints([
-                Constraint::Percentage(30),
-                Constraint::Fill(1)
-            ])
-            .areas(area);
-
         let mut list_items = Vec::new();
         for (idx, item) in visible_map.iter().enumerate(){
             let is_selected = state.selected() == Some(idx);
@@ -220,13 +212,6 @@ mod minor{
                 .title_alignment(Alignment::Center)
             )
             .highlight_style(Style::default().bg(PALETTE.selection));
-        frame.render_stateful_widget(list_widget, module_area, state);
-    }
-}
-
-mod status_bar{
-    use super::*;
-    pub fn render(frame: &mut Frame, area: Rect, items: &[ModuleItem]){
-
+        frame.render_stateful_widget(list_widget, area, state);
     }
 }

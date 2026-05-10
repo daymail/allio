@@ -1,4 +1,7 @@
-use crate::traits::{ProjectModule, BaseModule};
+use crate::{
+    traits::{ProjectModule, BaseModule},
+    modules::projects::{backend::*, helpers::*}
+};
 
 pub struct Scoutd{
     name: String,
@@ -19,6 +22,21 @@ impl BaseModule for Scoutd{
     fn submodname(&self)-> &str {
         "Scoutd"
     }
+    fn detailing(&mut self, frame: &mut ratatui::prelude::Frame, area: ratatui::prelude::Rect) {
+        let mock_data = ProjectDefinition{
+            name: self.submodname().to_string(),
+            description: self.description().to_string(),
+            git_enabled: true,
+            daemon_running: process_running("scoutd"),
+            process: process_running("scoutd")
+        };
+        let header_config = HeaderConfig{
+            name: self.submodname(),
+            description: self.description(),
+            indicators: mock_data.get_status_indicators()
+        };
+        render_header(frame, area, header_config);
+    }
 }
 
 impl ProjectModule for Scoutd{
@@ -26,16 +44,7 @@ impl ProjectModule for Scoutd{
         "Scoutd"
     }
     fn description(&self)->&str {
-        "atomatic theming tool based on material3 (M3)"
-    }
-    fn git(&self)->String {
-        todo!()
-    }
-    fn tree(&self)->Vec<String> {
-        todo!()
-    }
-    fn project_root(&self)->std::path::PathBuf {
-        todo!()
+        "Scout-d (daemon) for IPC communication via DBus"
     }
 }
 

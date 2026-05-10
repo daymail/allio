@@ -28,15 +28,15 @@ pub trait Component{
 
 //NOTE: module traits
 pub trait BaseModule{
-    fn category(&self)->crate::modules::ModuleCategory;
-    fn submodname(&self)-> &str;
+    fn category(&self)->crate::modules::ModuleCategory;// super-module category
+    fn submodname(&self)-> &str;// submodule id name
+    fn detailing(&mut self, frame: &mut Frame, area: Rect){
+        frame.render_widget(Paragraph::new("DEFAULT RENDERER"),area);
+    }// rendering
 }
 pub trait ProjectModule: BaseModule{
     fn name(&self)->&str;
     fn description(&self)->&str;
-    fn git(&self)->String;
-    fn tree(&self)->Vec<String>;
-    fn project_root(&self)->std::path::PathBuf;
     //optional
     fn pid(&self)->Option<u32>{None}
     fn statistics(&self)->Option<(f64, f64)>{None}

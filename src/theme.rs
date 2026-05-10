@@ -40,6 +40,6 @@ pub const PALETTE: Theme = Theme{
     brand: Color::Rgb(138, 43, 226),
 
     error: Color::Rgb(255, 95, 95),
-    success: Color::Rgb(95, 255, 95)
+    success: Color::Rgb(170, 255, 199),
 };
 
