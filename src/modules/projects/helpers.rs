@@ -30,8 +30,9 @@ pub fn render_header(frame: &mut Frame, area: Rect, config: HeaderConfig){
     spans.push(Span::styled(
         config.description, Style::default().fg(PALETTE.dim).add_modifier(Modifier::ITALIC | Modifier::DIM),
     ));
+    let title = Span::styled(format!("{}", config.name.to_uppercase()), Style::default().bg(PALETTE.border_active).fg(PALETTE.border_inactive));
     let block = Block::bordered()
-        .title(format!("{}", config.name.to_uppercase()))
+        .title(title)
         .title_alignment(Alignment::Right)
         .border_type(BorderType::Rounded)
         .border_style(Style::default().fg(PALETTE.border_active));
