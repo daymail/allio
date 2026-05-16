@@ -11,9 +11,9 @@ pub struct ProjectDefinition{
 impl ProjectDefinition{
     pub fn get_status_indicators(&self)-> Vec<(&str, bool)>{
         vec![
-            ("GIT", self.git_enabled),
-            ("DAEMON", self.daemon_running),
-            ("PROC", self.process)
+            (" GIT", self.git_enabled),
+            ("󰊠 DAEMON", self.daemon_running),
+            (" PROC", self.process)
         ]
     }
 }

@@ -18,9 +18,8 @@ pub fn render_header(frame: &mut Frame, area: Rect, config: HeaderConfig){
     let mut spans = Vec::new();
     for(label, active) in config.indicators{
         let color = if active {PALETTE.success} else {PALETTE.dim};
-        let symbol = if active { "●" } else { "○" };
-        spans.push(Span::styled(format!("{} {}", symbol, label), Style::default().fg(color).add_modifier(Modifier::BOLD)));
-        spans.push(Span::raw(" | "));
+        spans.push(Span::styled(format!("{}", label), Style::default().fg(color).add_modifier(Modifier::BOLD)));
+        spans.push(Span::raw(" >> "));
     }
 
     let status_width: usize = spans.iter().map(|s| s.content.len()).sum();
@@ -37,4 +36,10 @@ pub fn render_header(frame: &mut Frame, area: Rect, config: HeaderConfig){
         .border_type(BorderType::Rounded)
         .border_style(Style::default().fg(PALETTE.border_active));
     frame.render_widget(Paragraph::new(Line::from(spans)).block(block).alignment(Alignment::Left), area);
+}
+
+pub fn styled_block()->Block<'static>{
+   Block::default()
+        .border_type(BorderType::Rounded)
+        .border_style(Style::default().fg(PALETTE.border_active))
 }

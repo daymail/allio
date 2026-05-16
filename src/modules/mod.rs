@@ -1,5 +1,6 @@
 pub mod interface;
 pub mod projects;
+pub mod cli;
 use ratatui::{Frame, layout::Rect};
 use crate::traits::{ProjectModule};
 
@@ -38,9 +39,14 @@ impl Module{
             Module::Project(p) => p.submodname()
         }
     }
-    fn detailing(&mut self, frame: &mut Frame, area: Rect){
+    pub fn detailing(&mut self, frame: &mut Frame, area: Rect){
         match self{
             Module::Project(p) => p.detailing(frame, area),
+        }
+    }
+    pub fn handle_input(&mut self, key: crossterm::event::KeyEvent){
+        match self{
+            Module::Project(p) => p.handle_input(key)
         }
     }
 }

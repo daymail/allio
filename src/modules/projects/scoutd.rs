@@ -46,5 +46,8 @@ impl ProjectModule for Scoutd{
     fn description(&self)->&str {
         "Scout-d (daemon) for IPC communication via DBus"
     }
+    fn handle_input(&mut self, key: crossterm::event::KeyEvent) {
+        todo!()
+    }
 }
 

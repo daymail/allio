@@ -3,16 +3,20 @@ mod theme;
 mod icons;
 mod traits;
 mod modules;
-//mod app;
-use modules::interface::Interface;
+use modules::interface::{Interface, InterfaceMode};
 use std::time::Duration;
 use traits::Component;
 use color_eyre::eyre::{Ok, Result};
 use ratatui::{
     DefaultTerminal,
-    crossterm::{event::{self, Event}}
+    crossterm::{event::{self, Event, KeyEvent, KeyCode}}
 };
-use crossterm::event::{KeyEventKind, KeyCode};
+
+pub enum EventTriggers{
+    Key(KeyEvent),
+    Tick
+}
+
 fn main() -> Result<()> {
     color_eyre::install()?;
     let term = ratatui::init();
@@ -31,25 +35,13 @@ fn run(mut terminal: DefaultTerminal) -> Result<()> {
                 interface.render(frame, screen);
             }
         })?;
-        if event::poll(Duration::from_millis(250))?{
-            if let Event::Key(key) = event::read()?{
-                if key.kind == KeyEventKind::Press{
-                    match key.code{
-                        KeyCode::Char('q') => break,
-                        KeyCode::Down | KeyCode::Char('j')=>{
-                            interface.next();
-                        }
-                        KeyCode::Up | KeyCode::Char('k')=>{
-                            interface.prev();
-                        }
-                        KeyCode::Enter => {
-                            interface.handle_enter();
-                        }
-                        _ => {}
-                    }
-                }
+        if let Event::Key(key) = event::read()?{
+            if key.code == KeyCode::Char('q') && interface.mode == InterfaceMode::Normal{
+                break;
             }
+            interface.event_handler(key);
         }
+
     }
     Ok(())
 }
