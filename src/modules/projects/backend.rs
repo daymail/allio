@@ -19,9 +19,7 @@ impl ProjectDefinition{
 }
 
 pub fn process_running(proc: &str)->bool{
-    let mut sys = System::new();
-    sys.refresh_processes(sysinfo::ProcessesToUpdate::All, false);
-    sys.processes().values().any(|process| process.name().to_string_lossy() == proc)
+    true
 }
 
 pub fn get_env(var: &str)->String{

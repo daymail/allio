@@ -2,7 +2,11 @@ pub mod interface;
 pub mod projects;
 pub mod cli;
 use ratatui::{Frame, layout::Rect};
-use crate::traits::{ProjectModule};
+use crate::{
+    theme::Theme,
+    traits::{ProjectModule},
+    modules::interface::InterfaceMode
+};
 
 pub enum Module{
     Project(Box<dyn ProjectModule>),
@@ -13,7 +17,6 @@ pub enum Module{
 pub enum ModuleCategory {
     Projects,
     Tools,
-    System,
     Games,
 }
 
@@ -22,7 +25,6 @@ impl ModuleCategory{
         match self{
             Self::Projects => "Projects",
             Self::Tools=> "Tools",
-            Self::System=> "System",
             Self::Games=> "Games"
         }
     }
@@ -39,14 +41,19 @@ impl Module{
             Module::Project(p) => p.submodname()
         }
     }
-    pub fn detailing(&mut self, frame: &mut Frame, area: Rect){
+    pub fn detailing(&mut self, frame: &mut Frame, area: Rect, theme: &Theme){
         match self{
-            Module::Project(p) => p.detailing(frame, area),
+            Module::Project(p) => p.detailing(frame, area, theme),
         }
     }
-    pub fn handle_input(&mut self, key: crossterm::event::KeyEvent){
+    pub fn handle_input(&mut self, key: crossterm::event::KeyEvent, mode: &mut InterfaceMode){
         match self{
-            Module::Project(p) => p.handle_input(key)
+            Module::Project(p) => p.handle_input(key, mode)
+        }
+    }
+    pub fn handle_mouse(&mut self, mouse: crossterm::event::MouseEvent, mode: InterfaceMode){
+        match self{
+            Module::Project(p) => p.handle_mouse(mouse, mode)
         }
     }
 }

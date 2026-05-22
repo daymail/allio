@@ -13,7 +13,6 @@
 - theme metadata section [Author, version, last edited timestamp, github links, social links]
 
 
-
 *HEADER*
 WALLWATCH
 - description
@@ -25,8 +24,11 @@ WALLWATCH
 - git branch
 *for active/inactive items, set them to colors that are on or off* that's the text surrounding it, not something separate
 
-
-
+*KEYMAPS*
+a/i = insert mode (cursor inside text input area in the submodule)
+c = insert in cli input area (persists in all submodules)
+Esc/: = Normal mode
+Tab = interactive mode/switch between widget areas
 
 
 

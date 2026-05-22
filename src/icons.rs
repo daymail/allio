@@ -1,5 +1,4 @@
-use lazy_static::lazy_static;
-
+use once_cell::sync::Lazy;
 pub struct IconSet {
     pub palette: &'static str,
     pub star: &'static str,
@@ -14,22 +13,24 @@ pub struct IconSet {
     pub check: &'static str,
     pub warning: &'static str,
     pub error: &'static str,
+    pub sun: &'static str,
+    pub moon: &'static str,
 }
 
-lazy_static! {
-    pub static ref ICONS: IconSet = IconSet {
-        palette: "",
-        star: "󰓎",
-        smooth_star: "",
-        hollow_star: "",
-        badge_star: "󰓏",
-        triangle_right: "󰁔",
-        triangle_down: "󰁕",
-        circle: "󰀀",
-        square: "󰝤",
-        smooth_square: "",
-        check: "󰄬",
-        warning: "󰀦",
-        error: "󰅚",
-    };
-}
+pub static ICONS: Lazy<IconSet> = Lazy::new(|| IconSet{
+    palette: "",
+    star: "󰓎",
+    smooth_star: "",
+    hollow_star: "",
+    badge_star: "󰓏",
+    triangle_right: "󰁔",
+    triangle_down: "󰁕",
+    circle: "󰀀",
+    square: "󰝤",
+    smooth_square: "",
+    check: "󰄬",
+    warning: "󰀦",
+    error: "󰅚",
+    sun: "",
+    moon: "",
+});
